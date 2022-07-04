@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\DemoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::group(['namespace' => 'Api'], function () { 
+    
+    //身份验证
+    Route::group(['prefix' => 'Demo'],function () {
+
+        Route::get('test', [DemoController::class,'Testing']);
+    });
 });
