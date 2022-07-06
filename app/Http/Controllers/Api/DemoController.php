@@ -11,7 +11,7 @@ class DemoController extends BaseController
 
     public function Testing()
     {
-      dd(21);
+      dd("Hello word");
     }
 
 
