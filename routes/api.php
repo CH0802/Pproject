@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DemoController;
+use App\Http\Controllers\Api\Applet\AppletLoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,5 +26,12 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'Demo'],function () {
 
         Route::get('test', [DemoController::class,'Testing']);
+    });
+
+
+    //打卡
+    Route::group(['prefix' => 'PunchCard'],function () {
+    	Route::post('WechatLogin', [AppletLoginController::class,'WechatLogin']);
+        Route::get('test', [AppletLoginController::class,'Testing']);
     });
 });
