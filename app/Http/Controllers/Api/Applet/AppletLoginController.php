@@ -80,7 +80,7 @@ class AppletLoginController extends BaseController
         //获取用户信息
         $userProfile = WechatAppletService::instance()->decryptData(Config('AppletConfig.DK-AppID'),$userData['session_key'],$encryptedData,$iv);
 
-        Log::info('code'=>json_encode($userProfile));die;
+        Log::info(['code'=>json_encode($userProfile)]);die;
         //记录登陆数据
          $result = $this->RecordUserInfoToHB(array_merge($userProfile,$userData,['uuid'=>$uuid]));
 
