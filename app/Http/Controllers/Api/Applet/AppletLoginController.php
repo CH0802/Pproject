@@ -145,7 +145,7 @@ class AppletLoginController extends BaseController
             throw new ExampleException('登录失败');
         }
 
-        return $this->renderElecJson($resule); 
+        return ['code'=>20000,'result'=>$resule]; 
 
     } 
 
