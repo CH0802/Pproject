@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Api\Applet;
 use Log;
 use Illuminate\Http\Request;
 use App\Exceptions\ExampleException;
-use App\Services\WechatAppletService;
+use App\Services\Applet\WechatAppletService;
+use App\Services\RequesttypeService;
 use App\Http\Controllers\Api\BaseController;
 use App\Exceptions\BusinessException;
 use App\Services\BpmProjectInfo\PMProjectpriceService;
+use App\Models\AppletLoginLog;
    
 class AppletLoginController extends BaseController
 {
@@ -22,7 +24,7 @@ class AppletLoginController extends BaseController
 	 */
 	public function WechatLogin(Request $request)
 	{
-		
+
 		$iv = $userData = $encryptedData = $rawData = $uuid = $signature = $me_signature =$userProfile = '';
 		$returnData = [];
 
@@ -80,11 +82,11 @@ class AppletLoginController extends BaseController
         //获取用户信息
         $userProfile = WechatAppletService::instance()->decryptData(Config('AppletConfig.DK-AppID'),$userData['session_key'],$encryptedData,$iv);
 
-        Log::info(['code'=>json_encode($userProfile)]);die;
+        // Log::info(['code'=>json_encode($userProfile)]);dd($userProfile);
         //记录登陆数据
-         $result = $this->RecordUserInfoToHB(array_merge($userProfile,$userData,['uuid'=>$uuid]));
+         $result = $this->RecordLoginInfo(array_merge($userProfile,$userData,['uuid'=>$uuid]),'DK');
 
-         if(isset($result['StateCode']) && $result['StateCode']==200)
+         if(isset($result['code']) && $result['code']==20000)
         {
 	         $returnData = [
 	         	'uId'=>$userData['openid'],
@@ -117,5 +119,34 @@ class AppletLoginController extends BaseController
 		return json_decode($UserInfo);
 		
 	}
+
+
+    /**
+     * 记录登录信息
+     */
+    public function RecordLoginInfo($datas,$types)
+    {
+        $resule = [];
+
+        try {
+
+            switch ($types) 
+            {
+                case 'DK':
+                    $resule = AppletLoginLog::create($datas);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+
+        } catch (Exception $e) {
+            throw new ExampleException('登录失败');
+        }
+
+        return $this->renderElecJson($resule); 
+
+    } 
 
 }
