@@ -81,33 +81,6 @@ class BaseController extends Controller
         return $response;
     }
 
-    protected function TestingField()
-    {
-        $request = $this->requestData;
-        $search = [];
-
-        $list = ['GP00459','GP00366'];
-
-        if(in_array($this->userCode,$list))
-        {
-                $request['companyId'] = 82;
-
-        }
-
-        //公司编码
-        if(!isset($request['companyId']) || empty($request['companyId'])){
-            throw new BusinessException('参数错误:公司编码不能为空');
-        }
-
-        //公司编码
-        if(isset($request['companyId']) && $request['companyId']){
-            $search['CompanyID'] = $request['companyId'];
-        }
-
-        return $search;
-    }
-
-
     public static function log($filename,$loginfo,$catalogue = 'Bi_log',$header = [],$httpMethod = '',$isJson = False)
     {        
         $url='https://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];
