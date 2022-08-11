@@ -1,12 +1,15 @@
 APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=base64:Gvv+U5XKalrsaGigvTOye9oV73A9H4jRgWJGlulG0os=
-APP_DEBUG=true
+APP_DEBUG=false
 APP_URL=http://localhost
 
 LOG_CHANNEL=stack
 LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
+
+LOG_CHANNEL=daily
+APP_LOG = daily
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
