@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Applet;
 use App\Exceptions\BusinessException;
 use App\Exceptions\WechatErrorCode;
 use GuzzleHttp\Client;
