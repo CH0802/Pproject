@@ -17,6 +17,14 @@ class DemoController extends BaseController
 
     public function Testing()
     {
+    	return [
+
+    		"ticket"=>"ibGZRX9FnSctS8rPub434ukw3vsItDjikLbiU4cj",
+		    "expire_at"=>"2022-08-26 17:42:19",
+		    "expired"=>1209600,
+		    "client_id"=>12
+    		];
+
       dd("Hello word");
     }
 
