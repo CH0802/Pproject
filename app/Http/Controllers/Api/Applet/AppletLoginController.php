@@ -25,8 +25,8 @@ class AppletLoginController extends BaseController
 	public function WechatLogin(Request $request)
 	{
 
-		$iv = $userData = $encryptedData = $rawData = $uuid = $signature = $me_signature =$userProfile = '';
-		$returnData = [];
+		$iv = $userData = $encryptedData = $rawData = $uuid = $signature = $me_signature =$userProfile = $token = '';
+		$returnData = $userinfos = [] ;
 
 		if(!isset($request['UserCode']) || empty($request['UserCode']))
 		{
@@ -83,8 +83,13 @@ class AppletLoginController extends BaseController
         $userProfile = WechatAppletService::instance()->decryptData(Config('AppletConfig.DK-AppID'),$userData['session_key'],$encryptedData,$iv);
 
         // Log::info(['code'=>json_encode($userProfile)]);dd($userProfile);
+
+        $userinfos = array_merge($userProfile,$userData,['uuid'=>$uuid]);
+
+        $token = self::Ancryption($userinfos,$userData['session_key']);
+
         //记录登陆数据
-         $result = $this->RecordLoginInfo(array_merge($userProfile,$userData,['uuid'=>$uuid]),'DK');
+         $result = $this->RecordLoginInfo(array_merge($userinfos,['token'=>$token]),'DK');
 
          if(isset($result['code']) && $result['code']==20000)
         {
