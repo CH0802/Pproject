@@ -145,6 +145,55 @@ class BaseController extends Controller
     {
         return Response::json(['state'=>false,'code' => $errorCode, 'message' => $message]);
     }
+
+
+    /**
+     * 解密
+     * [AesDerypt description]
+     * @param [type] $encrypt $secret [description]
+     */
+    public function AesDerypt($encrypt, $secret){
+        $result = openssl_decrypt(base64_decode($encrypt), 'AES-128-ECB', $secret, OPENSSL_RAW_DATA);
+        return $result;
+    }
+
+
+    /**
+     * 加密
+     * [Ancryption description]
+     * @param [type] $encrypt $secret [description]
+     */
+    public function Ancryption($encrypt, $secret){
+        $result = openssl_encrypt(base64_encode($encrypt), 'AES-128-ECB', $secret, OPENSSL_RAW_DATA);
+        return base64_encode($result);
+    }
+
+
+    /**
+     * 获取当前时间戳
+     * @return string
+    */
+    public function get_millistime(){
+        $microtime = microtime();
+        $comps = explode(' ', $microtime);
+        return sprintf('%d%03d', $comps[1], $comps[0] * 1000);
+    }
+
+    /**
+     * 获取全局uuid
+     * @return string
+    */
+    public function get_guid(){
+        mt_srand((double) microtime() * 10000);
+        $charid = md5(uniqid(rand(), true));
+        $hyphen = chr(45); 
+        $uuid = substr($charid, 0, 8) . $hyphen
+            . substr($charid, 8, 4) . $hyphen
+            . substr($charid, 12, 4) . $hyphen
+            . substr($charid, 16, 4) . $hyphen
+            . substr($charid, 20, 12);
+        return $uuid;
+    }
     
     
 }

@@ -13,7 +13,7 @@ class AppletLoginLog extends BaseModel
     public $timestamps = false;
 
     protected $fillable = [
-    	'openid','session_key','nickName','avatarUrl'
+    	'openid','session_key','nickName','avatarUrl','token'
     ];
     
     protected $casts = [
