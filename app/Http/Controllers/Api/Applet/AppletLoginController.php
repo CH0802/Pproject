@@ -86,7 +86,7 @@ class AppletLoginController extends BaseController
 
         $userinfos = array_merge($userProfile,$userData,['uuid'=>$uuid]);
 
-        $token = self::Ancryption($userinfos,$userData['session_key']);
+        $token = self::Ancryption(json_encode($userinfos),$userData['session_key']);
 
         //记录登陆数据
          $result = $this->RecordLoginInfo(array_merge($userinfos,['token'=>$token]),'DK');

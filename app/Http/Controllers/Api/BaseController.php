@@ -154,7 +154,7 @@ class BaseController extends Controller
      */
     public function AesDerypt($encrypt, $secret){
         $result = openssl_decrypt(base64_decode($encrypt), 'AES-128-ECB', $secret, OPENSSL_RAW_DATA);
-        return $result;
+        return base64_decode($result);
     }
 
 
