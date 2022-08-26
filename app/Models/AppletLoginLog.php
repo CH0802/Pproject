@@ -5,12 +5,13 @@ namespace App\Models;
 class AppletLoginLog extends BaseModel
 {
     const CREATED_AT = 'createtime';
+    const UPDATED_AT ='updatetime';
     
     protected $connection = 'DkInfo';
     
     protected $table = 'AppletLoginLog';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
     	'openid','session_key','nickName','avatarUrl','token'
@@ -19,6 +20,7 @@ class AppletLoginLog extends BaseModel
     protected $casts = [
         'id' => 'string',
         'createtime' => 'string',
+        'updatetime' => 'string',
     ];
 
 }
