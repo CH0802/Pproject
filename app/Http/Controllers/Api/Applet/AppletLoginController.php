@@ -131,14 +131,27 @@ class AppletLoginController extends BaseController
      */
     public function RecordLoginInfo($datas,$types)
     {
-        $resule = [];
+        $resule = $testingExist = $Apple =[];
 
         try {
 
             switch ($types) 
             {
                 case 'DK':
-                    $resule = AppletLoginLog::create($datas);
+                    $testingExist = AppletLoginLog::where('openid',$datas['openid'])->count('id');
+                    if($testingExist)
+                    {
+                        $Apple = AppletLoginLog::where('openid',$datas['openid'])->update([
+                            'session_key'=>$datas['session_key'],
+                            'nickName'=>$datas['nickName'],
+                            'avatarUrl'=>$datas['avatarUrl'],
+                            'token'=>$datas['token'],
+                        ]);
+
+                    }else
+                    {
+                        $resule = AppletLoginLog::create($datas);
+                    }
                     break;
                 
                 default:
