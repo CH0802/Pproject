@@ -96,7 +96,8 @@ class AppletLoginController extends BaseController
 	         $returnData = [
 	         	'uId'=>$userData['openid'],
 	         	'headPortraitUrl'=>$userProfile['avatarUrl'],
-	         	'nickName'=>$userProfile['nickName'],
+                'nickName'=>$userProfile['nickName'],
+	         	'token'=>$token,
 	         ];
      	}
 
