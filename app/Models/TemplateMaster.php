@@ -1,20 +1,22 @@
 <?php
 
 namespace App\Models;
+use DateTimeInterface;
 
-class AppletLoginLog extends BaseModel
+class TemplateMaster extends BaseModel
 {
     const CREATED_AT = 'createtime';
     const UPDATED_AT ='updatetime';
+    const STATE_QY ='1';//启用
     
     protected $connection = 'DkInfo';
     
-    protected $table = 'AppletLoginLog';
+    protected $table = 'TemplateMaster';
 
     public $timestamps = true;
 
     protected $fillable = [
-    	'openid','session_key','nickName','avatarUrl','token'
+    	'tempname'
     ];
     
     protected $casts = [
@@ -23,4 +25,9 @@ class AppletLoginLog extends BaseModel
         'updatetime' => 'string',
     ];
 
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+    
 }

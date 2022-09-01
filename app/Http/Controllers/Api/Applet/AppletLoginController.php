@@ -8,7 +8,7 @@ use App\Services\RequesttypeService;
 use App\Http\Controllers\Api\BaseController;
 use App\Exceptions\BusinessException;
 use App\Services\BpmProjectInfo\PMProjectpriceService;
-use App\Models\AppletLoginLog;
+use App\Models\AppletUser;
    
 class AppletLoginController extends BaseController
 {
@@ -84,7 +84,7 @@ class AppletLoginController extends BaseController
 
         // Log::info(['code'=>json_encode($userProfile)]);dd($userProfile);
 
-        $userinfos = array_merge($userProfile,$userData,['uuid'=>$uuid]);
+        $userinfos = array_merge($userProfile,$userData,['usercode'=>$uuid]);
 
         $token = self::Ancryption(json_encode($userData),$userData['session_key']);
 
@@ -139,10 +139,10 @@ class AppletLoginController extends BaseController
             switch ($types) 
             {
                 case 'DK':
-                    $testingExist = AppletLoginLog::where('openid',$datas['openid'])->count('id');
+                    $testingExist = AppletUser::where('openid',$datas['openid'])->count('id');
                     if($testingExist)
                     {
-                        $Apple = AppletLoginLog::where('openid',$datas['openid'])->update([
+                        $Apple = AppletUser::where('openid',$datas['openid'])->update([
                             'session_key'=>$datas['session_key'],
                             'nickName'=>$datas['nickName'],
                             'avatarUrl'=>$datas['avatarUrl'],
@@ -151,7 +151,7 @@ class AppletLoginController extends BaseController
 
                     }else
                     {
-                        $resule = AppletLoginLog::create($datas);
+                        $resule = AppletUser::create($datas);
                     }
                     break;
                 
