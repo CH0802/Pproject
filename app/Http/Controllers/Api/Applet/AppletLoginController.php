@@ -94,7 +94,7 @@ class AppletLoginController extends BaseController
          if(isset($result['code']) && $result['code']==20000)
         {
 	         $returnData = [
-	         	'uId'=>$userData['openid'],
+	         	'uId'=>$uuid,
 	         	'headPortraitUrl'=>$userProfile['avatarUrl'],
                 'nickName'=>$userProfile['nickName'],
 	         	'token'=>$token,
