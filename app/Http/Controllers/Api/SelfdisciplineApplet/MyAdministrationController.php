@@ -40,6 +40,7 @@ class MyAdministrationController extends BaseController
 
         	foreach ($userclass as $key => $value) 
         	{
+        		$newTemplateList[$key]['id'] = $value['id'];
         		$newTemplateList[$key]['uid'] = $value['uid'];
         		$newTemplateList[$key]['tempnames'] = $value['tempname'];
         	}
@@ -58,6 +59,7 @@ class MyAdministrationController extends BaseController
         			$newTemplate['uid'] = $request['UserCode'];	
         			$newTemplate['tempname'] = $value['tempname'];
 
+        			$newTemplateList[$key]['id'] = $value['id'];
         			$newTemplateList[$key]['uid'] = $request['UserCode'];
         			$newTemplateList[$key]['tempnames'] = $value['tempname'];
 
