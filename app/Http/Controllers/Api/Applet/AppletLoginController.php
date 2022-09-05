@@ -94,7 +94,7 @@ class AppletLoginController extends BaseController
          if(isset($result['code']) && $result['code']==20000)
         {
 	         $returnData = [
-	         	'uId'=>$uuid,
+	         	'uId'=>$this->AccordingOpenidGetUid($userData['openid']),
 	         	'headPortraitUrl'=>$userProfile['avatarUrl'],
                 'nickName'=>$userProfile['nickName'],
 	         	'token'=>$token,
@@ -167,5 +167,22 @@ class AppletLoginController extends BaseController
         return ['code'=>20000,'result'=>$resule]; 
 
     } 
+
+    /**
+     * 根据用户openid获取用户uid
+     */
+    public function AccordingOpenidGetUid($openids)
+    {
+        $uids = '';
+
+        if(!empty($openids))
+        {
+            $userinfo = AppletUser::where('openid',$openids)->select()->get()->toArray();
+
+            $uids = $userinfo[0]['usercode'];
+        }
+
+        return $uids;
+    }
 
 }
