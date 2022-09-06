@@ -33,7 +33,7 @@ class MyAdministrationController extends BaseController
         }
 
         //当前用户的分类
-        $userclass = UserTemplate::where('uid',$request['UserCode'])->select()->get()->toArray();
+        $userclass = UserTemplate::arrWhere(['uid'=>$request['UserCode'],'state'=>UserTemplate::STATE_QY])->select()->get()->toArray();
 
         if($userclass)
         {
