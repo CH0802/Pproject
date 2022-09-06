@@ -7,6 +7,7 @@ class UserTemplate extends BaseModel
 {
     const CREATED_AT = 'createtime';
     const UPDATED_AT ='updatetime';
+    const STATE_QY ='1';//启用
     
     protected $connection = 'DkInfo';
     
