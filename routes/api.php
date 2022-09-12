@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DemoController;
 use App\Http\Controllers\Api\Applet\AppletLoginController;
 use App\Http\Controllers\Api\SelfdisciplineApplet\MyAdministrationController;
+use App\Http\Controllers\Api\SelfdisciplineApplet\TaskPlanController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,8 +33,13 @@ Route::group(['namespace' => 'Api'], function () {
 
     //打卡
     Route::group(['prefix' => 'PunchCard'],function () {
+        //登录
     	Route::post('WechatLogin', [AppletLoginController::class,'WechatLogin']);
+        //测试
         Route::get('test', [AppletLoginController::class,'Testing']);
+        //获取分类，如不存在初始化分类后在返回
         Route::post('getMyClassList', [MyAdministrationController::class,'GetMyClassificationList'])->middleware('Dk-Auth');
+        //创建计划
+        Route::post('CreatePlan', [TaskPlanController::class,'CreatePlan'])->middleware('Dk-Auth');
     });
 });
