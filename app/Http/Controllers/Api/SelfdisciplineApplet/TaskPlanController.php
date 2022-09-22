@@ -32,7 +32,7 @@ class TaskPlanController extends BaseController
               throw new ExampleException('参数错误:用户Code不能为空');
         }
 
-        if(!isset($request['planitle']) || empty($request['planitle']))
+        if(!isset($request['plantitle']) || empty($request['plantitle']))
 		{
               throw new ExampleException('参数错误:计划标题不能为空');
         }
