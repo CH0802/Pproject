@@ -19,7 +19,7 @@ class TaskPlanController extends BaseController
 {
 
 	/**
-	 * This is a function
+	 * 创建任务计划
 	 * @Author   CH。
 	 * @DateTime 2022-09-12
 	 */
@@ -75,5 +75,42 @@ class TaskPlanController extends BaseController
         return $this->renderElecJson(['code'=>0,'result'=>[]]);
 
 	}
+
+  /**
+   * 获取用户计划
+   * @Author   CH。
+   * @DateTime 2022-09-22
+   */
+  public function GetUserPlanList()
+  {
+    $request = $this->requestData;
+    $planList = $newplanlist = [];
+
+    if(!isset($request['uid']) || empty($request['uid']))
+    {
+              throw new ExampleException('参数错误:用户Code不能为空');
+    }
+
+    $planList = PlanTask::where('uid',$request['uid'])->select()->get()->toArray();
+
+    if($planList)
+    {
+        foreach ($planList as $key => $value) 
+        {
+            
+          $newplanlist[$key]['id']  =  $value['id'];
+          $newplanlist[$key]['title']  = $value['plantitle'];
+          $newplanlist[$key]['cycleType']  = $value['plancycletype'];
+          $newplanlist[$key]['cycleValue']  = $value['plancyclevalue'];
+          $newplanlist[$key]['planNum']  = $value['plannum'];
+          $newplanlist[$key]['classIfy']  = $value['planclassify'];
+          $newplanlist[$key]['journalState']  = $value['planjournalstate'];
+
+        }
+    }
+
+    return $this->renderElecJson(['code'=>0,'result'=>$newplanlist]);
+
+  }
 
 }
