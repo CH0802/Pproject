@@ -15,7 +15,7 @@ class PlanTask extends BaseModel
     public $timestamps = true;
 
     protected $fillable = [
-    	'uid','planitle','plancycletype','plancyclevalue','plannum','planclassify','planjournalstate'
+    	'uid','plantitle','plancycletype','plancyclevalue','plannum','planclassify','planjournalstate'
     ];
     
     protected $casts = [
