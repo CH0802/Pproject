@@ -43,5 +43,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('CreatePlan', [TaskPlanController::class,'CreatePlan'])->middleware('Dk-Auth');
         //获取计划列表
         Route::post('GetUserPlanList', [TaskPlanController::class,'GetUserPlanList'])->middleware('Dk-Auth');
+        //获取打卡列表
+        Route::post('GetClockInList', [TaskPlanController::class,'GetClockInList'])->middleware('Dk-Auth');
     });
 });
