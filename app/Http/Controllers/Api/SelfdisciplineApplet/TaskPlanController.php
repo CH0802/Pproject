@@ -1,7 +1,7 @@
 <?php 
 
 namespace App\Http\Controllers\Api\SelfdisciplineApplet;
-use Log;
+use Log,DB;
 use Illuminate\Http\Request;
 use App\Exceptions\ExampleException;
 use App\Services\RequesttypeService;
@@ -111,6 +111,59 @@ class TaskPlanController extends BaseController
 
     return $this->renderElecJson(['code'=>0,'result'=>$newplanlist]);
 
+  }
+
+  /**
+   * 获取打卡列表
+   * @Author   CH。
+   * @DateTime 2022-09-27
+   */
+  public function GetClockInList()
+  {
+    $request = $this->requestData;
+    $ClockInList = $ClockInLists = [];
+
+    if(!isset($request['uid']) || empty($request['uid']))
+    {
+        throw new ExampleException('参数错误:用户Code不能为空');
+    }
+
+    $sql = "SELECT
+  plantitle,plancycletype,plancyclevalue, 
+  plannum,planclassify,planjournalstate,createtime,'' as content,'0' as state
+FROM Dktest.PlanTask 
+WHERE
+  uid = '".$request['uid']."' 
+  AND id not in(
+  SELECT ptid FROM Dktest.ClockIn WHERE
+  ptid IN ( SELECT id FROM Dktest.PlanTask WHERE uid = '".$request['uid']."' ))
+union all
+select 
+  pt.plantitle,pt.plancycletype,pt.plancyclevalue,  
+  pt.plannum,pt.planclassify,pt.planjournalstate, 
+  ci.createtime,ci.content,'1' as state
+  from Dktest.ClockIn ci left join Dktest.PlanTask pt on ci.ptid = pt.id where ci.uid ='".$request['uid']."'";
+      $ClockInList = array_map('get_object_vars', DB::connection('DkInfo')->select($sql));
+
+
+      if($ClockInList)
+      {
+         foreach ($ClockInList as $key => $value) 
+         {
+            $ClockInLists[$key]['id'] = $key;
+            $ClockInLists[$key]['planTitle'] = $value['plantitle'];
+            $ClockInLists[$key]['planCycleType'] = $value['plancycletype'];
+            $ClockInLists[$key]['planCycleValue'] = $value['plancyclevalue'];
+            $ClockInLists[$key]['planNum'] = $value['plannum'];
+            $ClockInLists[$key]['planClassify'] = $value['planclassify'];
+            $ClockInLists[$key]['planJournalState'] = $value['planjournalstate'];
+            $ClockInLists[$key]['createTime'] = $value['createtime'];
+            $ClockInLists[$key]['content'] = $value['content'];
+            $ClockInLists[$key]['state'] = $value['state'];
+         }
+      }
+
+      return $this->renderElecJson(['code'=>0,'result'=>$ClockInLists]);
   }
 
 }
